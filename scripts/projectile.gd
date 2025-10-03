@@ -1,4 +1,8 @@
-extends CharacterBody2D
+extends Area2D
+
+var speed = 500
+var direction : Vector2
+var facing = 0
 
 # TODO: Add speed variable for how fast projectile moves
 # var speed = ?
@@ -7,6 +11,8 @@ extends CharacterBody2D
 # var direction = Vector2.ZERO
 
 func _physics_process(_delta):
+	
+	position += direction * speed * _delta
 	# TODO: Calculate movement using direction and speed
 	# Similar to player movement: velocity = direction * speed
 	
@@ -21,7 +27,19 @@ func _physics_process(_delta):
 	pass
 
 # TODO: Create function to set projectile direction
-func set_direction(facing_direction):
+func set_direction(_facing :String):
+	
+	if _facing == "up":
+		direction = Vector2(0,-1)
+	
+	if _facing == "down":
+		direction = Vector2(0,1)
+	
+	if _facing == "right":
+		direction = Vector2(1,0)
+	
+	if _facing == "left":
+		direction = Vector2(-1,0)
 	# TODO: Convert facing string to Vector2 direction
 	# Use if statements: "up" -> Vector2.UP, "down" -> Vector2.DOWN, etc.
 	# Set direction = the Vector2 result

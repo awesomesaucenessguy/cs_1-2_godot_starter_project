@@ -7,10 +7,12 @@ var facing = "down"
 var ySpeed = 300.0
 var yDirection = 0
 var coins = 0
+var health = 10
+var maxhealth = 10
+var projectile_scene = preload("res://scenes/projectile.tscn")
 # TODO: Add health system variables
 # var health = ?
 # var maxHealth = ?
-
 # TODO: Add projectile scene for shooting
 # var projectile_scene = preload("res://scenes/projectile.tscn")
 
@@ -26,7 +28,7 @@ func _physics_process(_delta):
 	# Same idea, but for up and down movement
 	yDirection = Input.get_axis("ui_up", "ui_down")
 	
-
+	# ts pmo 🥀💔
 	# TODO: Calculate X movement by multiplying direction × speed
 	# This gives us the actual pixels to move this frame
 	# If direction is 1 and speed is 300, we get 300 pixels right
@@ -40,7 +42,7 @@ func _physics_process(_delta):
 	# Godot's CharacterBody2D uses a velocity system
 	
 	
-	
+	pass
 	# TODO: Update facing direction based on movement
 	# Use if statements to check xDirection and yDirection
 	# Set facing to "right", "left", "down", or "up"
@@ -56,8 +58,10 @@ func _physics_process(_delta):
 		facing="down"
 	elif yDirection <0:
 		facing="up"
-		
+	if Input.is_action_just_pressed("ui_select"):
+		shoot()
 	update_animation()
+	
 	# TODO: Actually apply the movement
 	# This is a special Godot function that makes the movement happen
 
@@ -67,20 +71,29 @@ func update_animation():
 	# Use: _animation_player.play("idle_" + facing)
 	# This combines "idle_" with whatever direction we're facing
 	if xDirection ==0 && yDirection ==0: _animation_player.play("idle_" + facing)
-	elif xDirection !=0 || yDirection !=0: _animation_player.play("walk_" + facing)
-	
+	elif xDirection !=0 || yDirection !=0: _animation_player.play("walk_" + facing)	
 
 
 # TODO: Create health change function for interactions
-
-	# TODO: Add amount to health (positive = heal, negative = damage)
-	# TODO: Make sure health stays between 0 and maxHealth
-	# TODO: Print the new health value
-	# TODO: Check if health <= 0 for death (optional challenge)
-
+func changehealth(amount:int):
+	health = 10
+	prints("you have"+str(health)+"health")
+	if health>maxhealth:
+		health=maxhealth
+	if health<1:
+		die()
+func die():
+	print ("Game Over")
+	queue_free()
+pass
 
 # TODO: Create shooting function
 func shoot():
+	
+	var new_instance = projectile_scene.instantiate()
+	new_instance.set_direction(facing)
+	get_parent().add_child(new_instance)
+	new_instance.global_position = position - Vector2(0,25)
 	pass
 	# TODO: Create a new projectile instance
 	# Look at the documentation examples in the lesson
