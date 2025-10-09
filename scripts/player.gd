@@ -8,8 +8,10 @@ var facing = "down"
 var ySpeed = 300.0
 var yDirection = 0
 var coins = 0
-@export var offset : Vector2 = Vector2(0, -25)
+var is_attacking = false
+var attack_timer = .67
 
+@export var offset : Vector2 = Vector2(0, -25)
 # TODO: Add health system variables
 var maxHealth = 10
 var health = maxHealth
@@ -18,6 +20,13 @@ func _ready() -> void:
 	pass
 
 func _physics_process(_delta):
+	if Input.is_action_just_pressed("ui_accept"):
+		is_attacking = true
+	if is_attacking:
+		attack_timer -= _delta
+	if attack_timer <0:
+		is_attacking = false
+		attack_timer = .67
 	# TODO: Get horizontal input (left/right keys)
 	# Input.get_axis checks two keys and gives us a number:
 	# - When LEFT is pressed: returns -1.0
@@ -67,8 +76,6 @@ func update_animation():
 		_animation_player.play("walk_" + facing)
 		pass
 		
-	
-
 
 # TODO: Create health change function for interactions
 func change_health(_amount:int):
