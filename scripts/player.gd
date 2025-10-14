@@ -10,7 +10,7 @@ var yDirection = 0
 var coins = 0
 var is_attacking = false
 var attack_timer = .67
-
+var enemy = null
 @export var offset : Vector2 = Vector2(0, -25)
 # TODO: Add health system variables
 var maxHealth = 10
@@ -19,6 +19,9 @@ var health = maxHealth
 func _ready() -> void:
 	pass
 
+func _physics():
+	if enemy!=null and is_attacking:
+		enemy.change_health(-1)
 func _physics_process(_delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		is_attacking = true
@@ -92,7 +95,7 @@ func change_coins(_amount:int):
 
 func die():
 	print("you died")
-	
+	queue_free()
 # TODO: Create shooting function
 func shoot():
 	# TODO: Create a new projectile instance
