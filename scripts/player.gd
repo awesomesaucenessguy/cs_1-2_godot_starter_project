@@ -18,10 +18,18 @@ var health = maxHealth
 
 func _ready() -> void:
 	pass
-
+func on_body_entered(body):
+	if body.is_in_group("enemy"):
+		enemy = null
+		pass
+func on_body_exited(body):
+	if body.is_in_group("enemy"):
+		enemy = null
 func _physics():
 	if enemy!=null and is_attacking:
 		enemy.change_health(-1)
+		enemy.queue_free()
+		pass
 func _physics_process(_delta):
 	if Input.is_action_just_pressed("ui_accept"):
 		is_attacking = true
