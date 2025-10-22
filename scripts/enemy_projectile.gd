@@ -1,5 +1,5 @@
 extends Area2D
-var speed = 300
+var speed = 1
 var direction
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -7,9 +7,10 @@ func _ready() -> void:
 func _on_body_entered(body):
 	queue_free()
 	if body.name == "Player":
-		body.change_health(-10)
+		body.change_health(-2)
 pass
 func set_direction(target):
 	direction = position.direction_to(target)
 func _physics_process(_delta):
 	position += speed * direction * _delta
+	speed = speed * 1.1

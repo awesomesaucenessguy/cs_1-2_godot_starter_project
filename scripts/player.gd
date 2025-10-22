@@ -11,7 +11,9 @@ var coins = 0
 var is_attacking = false
 var attack_timer = .67
 var enemy = null
+var current_enemy
 @export var offset : Vector2 = Vector2(0, -25)
+@onready var melee_box: CollisionShape2D = $Melee/Melee_Box
 # TODO: Add health system variables
 var maxHealth = 10
 var health = maxHealth
@@ -58,12 +60,16 @@ func _physics_process(_delta):
 	# TODO: Update facing direction based on movement
 	if xDirection > 0:
 		facing = "right"
+		melee_box.position = Vector2(30,0)
 	elif xDirection < 0:
 		facing = "left"
+		melee_box.position = Vector2(-30,0)
 	elif yDirection < 0:
 		facing = "up"
+		melee_box.position = Vector2(0,-30)
 	elif yDirection > 0:
 		facing = "down"
+		melee_box.position = Vector2(0,30)
 	
 	if Input.is_action_just_pressed("ui_select"):
 		shoot()
@@ -86,7 +92,6 @@ func update_animation():
 		#walking animation here
 		_animation_player.play("walk_" + facing)
 		pass
-		
 
 # TODO: Create health change function for interactions
 func change_health(_amount:int):
@@ -119,3 +124,15 @@ func shoot():
 	get_tree().get_root().add_child(projectile_clone)
 
 	pass
+func _process(delta: float) -> void:
+	if is_attacking and current_enemy !=null:
+		current_enemy.queue_free()
+	pass
+func _on_melee_body_entered(body: Node2D) -> void:
+	if body.is_in_group("enemy"):
+		current_enemy = body
+	pass
+func on_melee_body_exited(body: Node2D) -> void:
+	
+	pass
+#when im climbing up the egyptian fine shyts pyramid to fuh but i accidentally release the 4000 year old curse that turns you into the khaby lame mechanism 🥀💔🪫
