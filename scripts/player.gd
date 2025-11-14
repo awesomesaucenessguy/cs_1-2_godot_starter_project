@@ -37,9 +37,10 @@ func _physics_process(_delta):
 		is_attacking = true
 	if is_attacking:
 		attack_timer -= _delta
-	if attack_timer <0:
+	if attack_timer <0: 
 		is_attacking = false
 		attack_timer = .67
+		pass
 	# TODO: Get horizontal input (left/right keys)
 	# Input.get_axis checks two keys and gives us a number:
 	# - When LEFT is pressed: returns -1.0
@@ -74,6 +75,7 @@ func _physics_process(_delta):
 	if Input.is_action_just_pressed("ui_select"):
 		shoot()
 	
+	
 	# call the animation function
 	update_animation()
 	
@@ -83,16 +85,15 @@ func _physics_process(_delta):
 
 # TODO: Create animation function (add this outside of _physics_process)
 func update_animation():
-	# TODO: Set the animation based on the facing direction
-	if velocity.is_zero_approx():
-		_animation_player.play("idle_" + facing)
-	# This combines "idle_" with whatever direction we're facing
-		pass
-	elif !velocity.is_zero_approx():
-		#walking animation here
-		_animation_player.play("walk_" + facing)
-		pass
 
+	if is_attacking:
+		_animation_player.play("attack_" + facing)
+	else:
+		if velocity.is_zero_approx():
+			_animation_player.play("idle_" + facing)
+		elif !velocity.is_zero_approx():
+			_animation_player.play("walk_" + facing)
+		pass
 # TODO: Create health change function for interactions
 func change_health(_amount:int):
 		health += _amount
@@ -105,6 +106,8 @@ func change_health(_amount:int):
 func change_coins(_amount:int):
 	coins += _amount
 	print("you have " +str(coins) +" coins")
+	if coins == 18:
+		die()
 
 func die():
 	print("you died")
@@ -124,7 +127,7 @@ func shoot():
 	get_tree().get_root().add_child(projectile_clone)
 
 	pass
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if is_attacking and current_enemy !=null:
 		current_enemy.queue_free()
 	pass
@@ -132,7 +135,7 @@ func _on_melee_body_entered(body: Node2D) -> void:
 	if body.is_in_group("enemy"):
 		current_enemy = body
 	pass
-func on_melee_body_exited(body: Node2D) -> void:
+func on_melee_body_exited(_body: Node2D) -> void:
 	
 	pass
-#when im climbing up the egyptian fine shyts pyramid to fuh but i accidentally release the 4000 year old curse that turns you into the khaby lame mechanism 🥀💔🪫
+#wicutefsptfbiart4000yocttyitklm💔🥀🪫
