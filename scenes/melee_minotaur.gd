@@ -23,14 +23,14 @@ func _process(delta: float) -> void:
 		position += position.direction_to(player.position) * speed*delta
 		#big gun worky worky please 🥺
 		#                            🙏
-	if x_direction > 0:
-		facing = "right"
-	elif x_direction < 0:
-		facing = "left"
-	elif y_direction < 0:
-		facing = "up"
-	elif y_direction > 0:
-		facing = "down"
+		if x_direction > 0:
+			facing = "right"
+		elif x_direction < 0:
+			facing = "left"
+		elif y_direction < 0:
+			facing = "up"
+		elif y_direction > 0:
+			facing = "down"
 		update_animation()
 func update_animation():
 	if attacking:
